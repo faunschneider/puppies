@@ -68,6 +68,11 @@ public class Photo extends DataObject {
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
 
 	protected PhotoId id = null;
+
+	/**
+	 * Location where this photo was taken.
+	 */
+	protected Coordinate location = null;
 	
 	/**
 	 *
@@ -174,6 +179,21 @@ public class Photo extends DataObject {
 	 */
 	public PhotoId getId() {
 		return id;
+	}
+
+	/**
+	 * @methodtype get
+	 */
+	public Coordinate getLocation() {
+		return location;
+	}
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Coordinate newLocation) {
+		location = newLocation;
+		incWriteCount();
 	}
 
 	/**
