@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class Coordinate implements Serializable {
 
+	private static final int EARTH_RADIUS_IN_METERS = 6371000;
+
 	private double latitude;
 	private double longitude;
 
@@ -93,19 +95,25 @@ public class Coordinate implements Serializable {
 	}
 
 	/**
-	 * Calculates the distance between this Coordinate and an {@code other}. The distance
-	 * is a Coordinate that contains the latitudinal distance as latitude and the
-	 * longitudinal distance as longitude.
+	 * Calculates the distance in meters between this Coordinate and an {@code other}.
 	 * @param other The Coordinate to calculate the distance to.
-	 * @return the distance as new Coordinate
-	 * @see #getLatitudinalDistance(Coordinate)
-	 * @see #getLongitudinalDistance(Coordinate)
+	 * @return the distance in meters
 	 */
-	public Coordinate getDistance(Coordinate other) {
+	public double getDistance(Coordinate other) {
 		if (other == null) {
 			throw new IllegalArgumentException("other Coordinate must not be null!");
 		}
-		return new Coordinate(getLatitudinalDistance(other), getLongitudinalDistance(other));
+
+		double phi1 = degreesToRadians(latitude);
+		double lambda1 = degreesToRadians(longitude);
+		double phi2 = degreesToRadians(other.latitude);
+		double lambda2 = degreesToRadians(other.longitude);
+		double dphi = phi2 - phi1;
+		double dlambda = lambda2 - lambda1;
+
+		double haversin = Math.pow(Math.sin(dphi/2), 2) +
+		                  Math.cos(phi1) * Math.cos(phi2) * Math.pow(Math.sin(dlambda/2), 2);
+		return 2 * EARTH_RADIUS_IN_METERS * Math.asin(Math.sqrt(haversin));
 	}
 
 	@Override
@@ -136,5 +144,15 @@ public class Coordinate implements Serializable {
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
+
+	/**
+	 * Converts degrees to radians.
+	 * @param degrees The degrees to convert.
+	 * @return radians
+	 */
+	private static double degreesToRadians(double degrees) {
+		return degrees * Math.PI / 180;
+	}
+
 
 }

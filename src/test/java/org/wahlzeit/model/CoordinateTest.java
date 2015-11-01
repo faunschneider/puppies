@@ -88,13 +88,11 @@ public class CoordinateTest {
 	}
 
 	@Test
-	public void getDistanceContainsLatitudinalAndLongitudinalDistance() {
-		Coordinate a = new Coordinate(20.0, 30.0);
-		Coordinate b = new Coordinate(50.0, 10.0);
-		Coordinate distance = a.getDistance(b);
-		// NOTE: these should be exactly the same, so we do not provide any delta value
-		assertEquals(a.getLatitudinalDistance(b), distance.getLatitude(), 0.0);
-		assertEquals(a.getLongitudinalDistance(b), distance.getLongitude(), 0.0);
+	public void getDistanceBasic() {
+		Coordinate erlangenSchloss = new Coordinate(49.597891, 11.004623);
+		Coordinate roterPlatz = new Coordinate(49.574661, 11.029198);
+		assertEquals(3132.19, erlangenSchloss.getDistance(roterPlatz), DOUBLE_EQUALS_DELTA);
+		assertEquals(3132.19, roterPlatz.getDistance(erlangenSchloss), DOUBLE_EQUALS_DELTA);
 	}
 
 }
