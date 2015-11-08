@@ -8,3 +8,5 @@
 .idea
 .project
 .classpath
+WEB-INF/appengine-generated
+
