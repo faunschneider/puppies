@@ -27,6 +27,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.Serialize;
 import org.wahlzeit.services.DataObject;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
@@ -72,6 +73,7 @@ public class Photo extends DataObject {
 	/**
 	 * Location where this photo was taken.
 	 */
+	@Serialize
 	protected Location location = null;
 	
 	/**
