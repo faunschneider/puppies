@@ -1,12 +1,10 @@
 package org.wahlzeit.model;
 
-import java.io.Serializable;
-
 /**
  * A Coordinate represents a tuple of latitude and longitude coordinates on a sphere with a specific radius.
  * The center of the coordinate system is the Earth.
  */
-public class SphericCoordinate implements Serializable, Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
 	private static final int EARTH_RADIUS_IN_METERS = 6371000;
 
@@ -192,15 +190,12 @@ public class SphericCoordinate implements Serializable, Coordinate {
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
-		return CoordinateUtil.coordinateAsCartesianCoordinate(this)
-		                     .isEqual(CoordinateUtil.coordinateAsCartesianCoordinate(other));
+	protected CartesianCoordinate asCartesianCoordinate() {
+		final double latitudeRadians = Math.toRadians(latitude);
+		final double longitudeRadians = Math.toRadians(longitude);
+		double x = radius * Math.cos(latitudeRadians) * Math.cos(longitudeRadians);
+		double y = radius * Math.cos(latitudeRadians) * Math.sin(longitudeRadians);
+		double z = radius * Math.sin(latitudeRadians);
+		return new CartesianCoordinate(x, y, z);
 	}
-
-	@Override
-	public double getDistance(Coordinate other) {
-		return CoordinateUtil.coordinateAsCartesianCoordinate(this)
-		                     .getDistance(CoordinateUtil.coordinateAsCartesianCoordinate(other));
-	}
-
 }

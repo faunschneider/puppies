@@ -1,13 +1,11 @@
 package org.wahlzeit.model;
 
-import java.io.Serializable;
-
 /**
  * CartesianCoordinate represents a Coordinate in a cartesian coordinate system.
  * The center of the coordinate system is the Earth, where the x-Axis goes through the equator at latitude, longitude
  * (0,0), the y-Axis goes through (0, 90) and the z-Axis goes through the poles.
  */
-public class CartesianCoordinate implements Serializable, Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 	private double x;
 	private double y;
 	private double z;
@@ -109,17 +107,31 @@ public class CartesianCoordinate implements Serializable, Coordinate {
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
-		CartesianCoordinate cartesian = CoordinateUtil.coordinateAsCartesianCoordinate(other);
-		return Math.abs(x - cartesian.x) <= EQUALS_ALLOWED_DELTA
-		       && Math.abs(y - cartesian.y) <= EQUALS_ALLOWED_DELTA
-		       && Math.abs(z - cartesian.z) <= EQUALS_ALLOWED_DELTA;
+	protected CartesianCoordinate asCartesianCoordinate() {
+		return this;
 	}
 
-	@Override
-	public double getDistance(Coordinate other) {
-		CartesianCoordinate cartesian = CoordinateUtil.coordinateAsCartesianCoordinate(other);
-		return Math.sqrt(Math.pow(x - cartesian.x, 2) + Math.pow(y - cartesian.y, 2) + Math.pow(z - cartesian.z, 2));
+	/**
+	 * Checks whether this CartesianCoordinate is about the same as another. A little error in each direction is
+	 * tolerated.
+	 * @param other The CartesianCoordinate to compare to. Must not be null.
+	 * @return true if equal, false otherwise.
+	 * @methodtype boolean query
+	 */
+	public boolean isCartesianEqual(CartesianCoordinate other) {
+		return Math.abs(x - other.x) <= EQUALS_ALLOWED_DELTA
+		       && Math.abs(y - other.y) <= EQUALS_ALLOWED_DELTA
+		       && Math.abs(z - other.z) <= EQUALS_ALLOWED_DELTA;
+	}
+
+	/**
+	 * Gets the cartesian distance between this CartesianCoordinate and another.
+	 * @param other The CartesianCoordinate to calculate the distance to. Must not be null.
+	 * @return the distance in meters
+	 * @methodtype get
+	 */
+	public double getCartesianDistance(CartesianCoordinate other) {
+		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2));
 	}
 
 }
