@@ -16,9 +16,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * Construct an empty Coordinate, with Latitude = Longitude = Radius = 0.
 	 */
 	public SphericCoordinate() {
-		latitude = 0.0;
-		longitude = 0.0;
-		radius = 0.0;
+		this(0.0, 0.0, 0.0);
 	}
 
 	/**
@@ -59,6 +57,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setLatitude(double newLatitude) {
+		assertValidDouble(newLatitude);
 		if (newLatitude < -90.0f || newLatitude > 90.0f) {
 			throw new IllegalArgumentException("Latitude must be in range -90.0 - 90.0");
 		}
@@ -80,6 +79,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setLongitude(double newLongitude) {
+		assertValidDouble(newLongitude);
 		if (newLongitude < -180.0f || newLongitude > 180.0f) {
 			throw new IllegalArgumentException("Longitude must be in range -180.0 - 180.0");
 		}
@@ -101,6 +101,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setRadius(double newRadius) {
+		assertValidDouble(newRadius);
 		if (newRadius < 0.0) {
 			throw new IllegalArgumentException("Radius must be >= 0");
 		}
@@ -114,9 +115,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype get
 	 */
 	public double getLatitudinalDistance(SphericCoordinate other) {
-		if (other == null) {
-			throw new IllegalArgumentException("other Coordinate must not be null!");
-		}
+		assertNotNull(other);
 		return Math.abs(latitude - other.getLatitude());
 	}
 
@@ -127,9 +126,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype get
 	 */
 	public double getLongitudinalDistance(SphericCoordinate other) {
-		if (other == null) {
-			throw new IllegalArgumentException("other Coordinate must not be null!");
-		}
+		assertNotNull(other);
 		return Math.abs(longitude - other.getLongitude());
 	}
 
@@ -141,9 +138,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype get
 	 */
 	public double getSphericalDistance(SphericCoordinate other) {
-		if (other == null) {
-			throw new IllegalArgumentException("other Coordinate must not be null!");
-		}
+		assertNotNull(other);
 		if (radius != other.radius) {
 			throw new IllegalArgumentException("other Coordinate is not on the same sphere: [my radius: " + radius
 			                                   + ", other radius: " + other.radius + "]");

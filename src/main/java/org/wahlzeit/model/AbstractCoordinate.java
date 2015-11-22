@@ -12,13 +12,30 @@ public abstract class AbstractCoordinate implements Coordinate, Serializable {
 	 * @methodtype conversion
 	 */
 	public static CartesianCoordinate coordinateAsCartesianCoordinate(Coordinate coordinate) {
+		assertNotNull(coordinate);
+		assertIsAbstractCoordinate(coordinate);
+		return ((AbstractCoordinate) coordinate).asCartesianCoordinate();
+	}
+
+	protected static void assertNotNull(Coordinate coordinate) {
 		if (coordinate == null) {
 			throw new IllegalArgumentException("coordinate must not be null");
 		}
+	}
+
+	protected static void assertIsAbstractCoordinate(Coordinate coordinate) {
 		if (!(coordinate instanceof AbstractCoordinate)) {
 			throw new IllegalArgumentException("coordinate must subclass AbstractCoordinate");
 		}
-		return ((AbstractCoordinate) coordinate).asCartesianCoordinate();
+	}
+
+	protected static void assertValidDouble(double d) {
+		if (Double.isNaN(d)) {
+			throw new IllegalArgumentException("d must not be NaN");
+		}
+		if (Double.isInfinite(d)) {
+			throw new IllegalArgumentException("d must not be infinite");
+		}
 	}
 
 	/**

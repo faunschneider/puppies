@@ -25,9 +25,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param z z coordinate
 	 */
 	public CartesianCoordinate(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		setX(x);
+		setY(y);
+		setZ(z);
 	}
 
 	/**
@@ -41,6 +41,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setX(double x) {
+		assertValidDouble(x);
 		this.x = x;
 	}
 
@@ -55,6 +56,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setY(double y) {
+		assertValidDouble(y);
 		this.y = y;
 	}
 
@@ -69,6 +71,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setZ(double z) {
+		assertValidDouble(z);
 		this.z = z;
 	}
 
@@ -119,6 +122,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype boolean query
 	 */
 	public boolean isCartesianEqual(CartesianCoordinate other) {
+		assertNotNull(other);
 		return Math.abs(x - other.x) <= EQUALS_ALLOWED_DELTA
 		       && Math.abs(y - other.y) <= EQUALS_ALLOWED_DELTA
 		       && Math.abs(z - other.z) <= EQUALS_ALLOWED_DELTA;
@@ -131,6 +135,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype get
 	 */
 	public double getCartesianDistance(CartesianCoordinate other) {
+		assertNotNull(other);
 		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2));
 	}
 
