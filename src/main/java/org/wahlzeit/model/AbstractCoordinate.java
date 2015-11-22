@@ -38,6 +38,8 @@ public abstract class AbstractCoordinate implements Coordinate, Serializable {
 		}
 	}
 
+	protected abstract void assertClassInvariants();
+
 	/**
 	 * Converts this AbstractCoordinate to a CartesianCoordinate.
 	 * @return a CartesianCoordinate. Might be the same as the original instance.

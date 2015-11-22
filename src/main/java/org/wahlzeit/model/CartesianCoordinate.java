@@ -23,11 +23,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param x x coordinate
 	 * @param y y coordinate
 	 * @param z z coordinate
+	 * @precondition x, y, z must not be NaN or infinity.
 	 */
 	public CartesianCoordinate(double x, double y, double z) {
 		setX(x);
 		setY(y);
 		setZ(z);
+		assertClassInvariants();
 	}
 
 	/**
@@ -39,10 +41,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * @methodtype set
+	 * @precondition x must not be NaN or infinity
 	 */
 	public void setX(double x) {
 		assertValidDouble(x);
 		this.x = x;
+		assertClassInvariants();
 	}
 
 	/**
@@ -54,10 +58,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * @methodtype set
+	 * @precondition y must not be NaN or infinity
 	 */
 	public void setY(double y) {
 		assertValidDouble(y);
 		this.y = y;
+		assertClassInvariants();
 	}
 
 	/**
@@ -69,10 +75,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * @methodtype set
+	 * @precondition z must not be NaN or infinity
 	 */
 	public void setZ(double z) {
 		assertValidDouble(z);
 		this.z = z;
+		assertClassInvariants();
 	}
 
 	@Override
@@ -110,6 +118,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
+	protected void assertClassInvariants() {
+		assertValidDouble(x);
+		assertValidDouble(y);
+		assertValidDouble(z);
+	}
+
+	@Override
 	protected CartesianCoordinate asCartesianCoordinate() {
 		return this;
 	}
@@ -120,6 +135,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param other The CartesianCoordinate to compare to. Must not be null.
 	 * @return true if equal, false otherwise.
 	 * @methodtype boolean query
+	 * @precondition other must not be null.
 	 */
 	public boolean isCartesianEqual(CartesianCoordinate other) {
 		assertNotNull(other);
@@ -133,6 +149,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param other The CartesianCoordinate to calculate the distance to. Must not be null.
 	 * @return the distance in meters
 	 * @methodtype get
+	 * @precondition other must not be null.
 	 */
 	public double getCartesianDistance(CartesianCoordinate other) {
 		assertNotNull(other);

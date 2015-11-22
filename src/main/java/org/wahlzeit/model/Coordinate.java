@@ -8,6 +8,7 @@ public interface Coordinate {
 	 * @param other The other Coordinate.
 	 * @return true if equal, false otherwise.
 	 * @methodtype boolean query
+	 * @precondition other must not be null.
 	 */
 	boolean isEqual(Coordinate other);
 
@@ -17,6 +18,7 @@ public interface Coordinate {
 	 * @param other The coordinate to calculate the distance to.
 	 * @return the distance.
 	 * @methodtype get
+	 * @precondition other must not be null.
 	 */
 	double getDistance(Coordinate other);
 }

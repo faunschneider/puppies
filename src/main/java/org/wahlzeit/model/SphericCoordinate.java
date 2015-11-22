@@ -33,6 +33,10 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @param latitude The latitude to use.
 	 * @param longitude The longitude to use.
 	 * @param radius The radius to use.
+	 * @precondition latitude, longitude, radius must not be NaN or infinity.
+	 * @precondition latitude must be in range [-90, 90]
+	 * @precondition longitude must be in range [-180, 180]
+	 * @precondition radius must be in range [0, infinity[
 	 */
 	public SphericCoordinate(double latitude, double longitude, double radius) {
 		// Use the setters instead of assigning the variables directly
@@ -40,6 +44,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		setLatitude(latitude);
 		setLongitude(longitude);
 		setRadius(radius);
+		assertClassInvariants();
 	}
 
 	/**
@@ -55,13 +60,14 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * Sets the latitude.
 	 * @param newLatitude The new latitude.
 	 * @methodtype set
+	 * @precondition latitude must not be NaN or infinity.
+	 * @precondition latitude must be in range [-90, 90]
 	 */
 	public void setLatitude(double newLatitude) {
 		assertValidDouble(newLatitude);
-		if (newLatitude < -90.0f || newLatitude > 90.0f) {
-			throw new IllegalArgumentException("Latitude must be in range -90.0 - 90.0");
-		}
+		assertLatitudeInRange(newLatitude);
 		latitude = newLatitude;
+		assertClassInvariants();
 	}
 
 	/**
@@ -77,13 +83,14 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * Sets the longitude.
 	 * @param newLongitude The new longitude.
 	 * @methodtype set
+	 * @precondition longitude must not be NaN or infinity.
+	 * @precondition longitude must be in range [-180, 180]
 	 */
 	public void setLongitude(double newLongitude) {
 		assertValidDouble(newLongitude);
-		if (newLongitude < -180.0f || newLongitude > 180.0f) {
-			throw new IllegalArgumentException("Longitude must be in range -180.0 - 180.0");
-		}
+		assertLongitudeInRange(newLongitude);
 		longitude = newLongitude;
+		assertClassInvariants();
 	}
 
 	/**
@@ -99,13 +106,14 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * Sets the radius.
 	 * @param newRadius The new radius. Must be given in Meters.
 	 * @methodtype set
+	 * @precondition radius must not be NaN or infinity.
+	 * @precondition radius must be in range [0, infinity[
 	 */
 	public void setRadius(double newRadius) {
 		assertValidDouble(newRadius);
-		if (newRadius < 0.0) {
-			throw new IllegalArgumentException("Radius must be >= 0");
-		}
+		assertRadiusIsPositive(newRadius);
 		radius = newRadius;
+		assertClassInvariants();
 	}
 
 	/**
@@ -113,6 +121,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @param other The Coordinate to calculate the distance to.
 	 * @return the latitudinal distance
 	 * @methodtype get
+	 * @precondition other must not be null.
 	 */
 	public double getLatitudinalDistance(SphericCoordinate other) {
 		assertNotNull(other);
@@ -124,6 +133,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @param other The Coordinate to calculate the distance to.
 	 * @return the longitudinal distance
 	 * @methodtype get
+	 * @precondition other must not be null.
 	 */
 	public double getLongitudinalDistance(SphericCoordinate other) {
 		assertNotNull(other);
@@ -136,6 +146,8 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @param other The Coordinate to calculate the distance to.
 	 * @return the distance in meters
 	 * @methodtype get
+	 * @precondition other must not be null.
+	 * @precondition other must have the same radius as this SphericCoordinate.
 	 */
 	public double getSphericalDistance(SphericCoordinate other) {
 		assertNotNull(other);
@@ -182,6 +194,34 @@ public class SphericCoordinate extends AbstractCoordinate {
 		temp = Double.doubleToLongBits(longitude);
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		return result;
+	}
+
+	private static void assertLatitudeInRange(double latitude) {
+		if (latitude < -90.0f || latitude > 90.0f) {
+			throw new IllegalArgumentException("Latitude must be in range -90.0 - 90.0");
+		}
+	}
+
+	private static void assertLongitudeInRange(double longitude) {
+		if (longitude < -180.0f || longitude > 180.0f) {
+			throw new IllegalArgumentException("Longitude must be in range -180.0 - 180.0");
+		}
+	}
+
+	private static void assertRadiusIsPositive(double radius) {
+		if (radius < 0.0) {
+			throw new IllegalArgumentException("Radius must be >= 0");
+		}
+	}
+
+	@Override
+	protected void assertClassInvariants() {
+		assertValidDouble(latitude);
+		assertValidDouble(longitude);
+		assertValidDouble(radius);
+		assertLatitudeInRange(latitude);
+		assertLongitudeInRange(longitude);
+		assertRadiusIsPositive(radius);
 	}
 
 	@Override
