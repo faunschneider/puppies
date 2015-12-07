@@ -20,6 +20,7 @@
 
 package org.wahlzeit.services.mailing;
 
+import org.wahlzeit.annotations.Pattern;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.StringUtil;
@@ -30,6 +31,12 @@ import java.util.logging.Logger;
 /**
  * Abstract superclass for non-trivial EmailServer implementations.
  */
+@Pattern(
+	name="Decorator",
+	participants = {
+		"ConcreteComponent"
+	}
+)
 public abstract class AbstractEmailService implements EmailService {
 
 	private static final Logger log = Logger.getLogger(AbstractEmailService.class.getName());

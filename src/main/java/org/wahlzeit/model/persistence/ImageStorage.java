@@ -1,5 +1,6 @@
 package org.wahlzeit.model.persistence;
 
+import org.wahlzeit.annotations.Pattern;
 import org.wahlzeit.model.PhotoSize;
 import org.wahlzeit.services.LogBuilder;
 
@@ -13,6 +14,12 @@ import java.util.logging.Logger;
  * 
  * @review
  */
+@Pattern(
+	name="Adapter",
+	participants = {
+		"Target"
+	}
+)
 public abstract class ImageStorage {
 
 	private static final Logger log = Logger.getLogger(ImageStorage.class.getName());
