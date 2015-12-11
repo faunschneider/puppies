@@ -8,9 +8,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	private static final int EARTH_RADIUS_IN_METERS = 6371000;
 
-	private double latitude;
-	private double longitude;
-	private double radius;
+	private final double latitude;
+	private final double longitude;
+	private final double radius;
 
 	/**
 	 * Construct an empty Coordinate, with Latitude = Longitude = Radius = 0.
@@ -39,11 +39,17 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @precondition radius must be in range [0, infinity[
 	 */
 	public SphericCoordinate(double latitude, double longitude, double radius) {
-		// Use the setters instead of assigning the variables directly
-		// to make sure they are validated.
-		setLatitude(latitude);
-		setLongitude(longitude);
-		setRadius(radius);
+		assertValidDouble(latitude);
+		assertValidDouble(longitude);
+		assertValidDouble(radius);
+		assertLatitudeInRange(latitude);
+		assertLongitudeInRange(longitude);
+		assertRadiusIsPositive(radius);
+
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.radius = radius;
+
 		assertClassInvariants();
 	}
 
@@ -57,20 +63,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * Sets the latitude.
-	 * @param newLatitude The new latitude.
-	 * @methodtype set
-	 * @precondition latitude must not be NaN or infinity.
-	 * @precondition latitude must be in range [-90, 90]
-	 */
-	public void setLatitude(double newLatitude) {
-		assertValidDouble(newLatitude);
-		assertLatitudeInRange(newLatitude);
-		latitude = newLatitude;
-		assertClassInvariants();
-	}
-
-	/**
 	 * Gets the longitude.
 	 * @return the longitude coordinate
 	 * @methodtype get
@@ -80,40 +72,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * Sets the longitude.
-	 * @param newLongitude The new longitude.
-	 * @methodtype set
-	 * @precondition longitude must not be NaN or infinity.
-	 * @precondition longitude must be in range [-180, 180]
-	 */
-	public void setLongitude(double newLongitude) {
-		assertValidDouble(newLongitude);
-		assertLongitudeInRange(newLongitude);
-		longitude = newLongitude;
-		assertClassInvariants();
-	}
-
-	/**
 	 * Gets the radius.
 	 * @return the radius
 	 * @methodtype get
 	 */
 	public double getRadius() {
 		return radius;
-	}
-
-	/**
-	 * Sets the radius.
-	 * @param newRadius The new radius. Must be given in Meters.
-	 * @methodtype set
-	 * @precondition radius must not be NaN or infinity.
-	 * @precondition radius must be in range [0, infinity[
-	 */
-	public void setRadius(double newRadius) {
-		assertValidDouble(newRadius);
-		assertRadiusIsPositive(newRadius);
-		radius = newRadius;
-		assertClassInvariants();
 	}
 
 	/**

@@ -6,9 +6,9 @@ package org.wahlzeit.model;
  * (0,0), the y-Axis goes through (0, 90) and the z-Axis goes through the poles.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
-	private double x;
-	private double y;
-	private double z;
+	private final double x;
+	private final double y;
+	private final double z;
 	private static final float EQUALS_ALLOWED_DELTA = 0.001f;
 
 	/**
@@ -26,9 +26,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @precondition x, y, z must not be NaN or infinity.
 	 */
 	public CartesianCoordinate(double x, double y, double z) {
-		setX(x);
-		setY(y);
-		setZ(z);
+		assertValidDouble(x);
+		assertValidDouble(y);
+		assertValidDouble(z);
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		assertClassInvariants();
 	}
 
@@ -40,16 +43,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @methodtype set
-	 * @precondition x must not be NaN or infinity
-	 */
-	public void setX(double x) {
-		assertValidDouble(x);
-		this.x = x;
-		assertClassInvariants();
-	}
-
-	/**
 	 * @methodtype get
 	 */
 	public double getY() {
@@ -57,30 +50,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	/**
-	 * @methodtype set
-	 * @precondition y must not be NaN or infinity
-	 */
-	public void setY(double y) {
-		assertValidDouble(y);
-		this.y = y;
-		assertClassInvariants();
-	}
-
-	/**
 	 * @methodtype get
 	 */
 	public double getZ() {
 		return z;
-	}
-
-	/**
-	 * @methodtype set
-	 * @precondition z must not be NaN or infinity
-	 */
-	public void setZ(double z) {
-		assertValidDouble(z);
-		this.z = z;
-		assertClassInvariants();
 	}
 
 	@Override
