@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A Coordinate represents a tuple of latitude and longitude coordinates on a sphere with a specific radius.
  * The center of the coordinate system is the Earth.
@@ -7,26 +10,11 @@ package org.wahlzeit.model;
 public class SphericCoordinate extends AbstractCoordinate {
 
 	private static final int EARTH_RADIUS_IN_METERS = 6371000;
+	private static final Map<SphericCoordinate, SphericCoordinate> instances = new HashMap<>();
 
 	private final double latitude;
 	private final double longitude;
 	private final double radius;
-
-	/**
-	 * Construct an empty Coordinate, with Latitude = Longitude = Radius = 0.
-	 */
-	public SphericCoordinate() {
-		this(0.0, 0.0, 0.0);
-	}
-
-	/**
-	 * Construct a new Coordinate using the earth radius.
-	 * @param latitude The latitude to use.
-	 * @param longitude The longitude to use.
-	 */
-	public SphericCoordinate(double latitude, double longitude) {
-		this(latitude, longitude, EARTH_RADIUS_IN_METERS);
-	}
 
 	/**
 	 * Construct a new Coordinate.
@@ -38,7 +26,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @precondition longitude must be in range [-180, 180]
 	 * @precondition radius must be in range [0, infinity[
 	 */
-	public SphericCoordinate(double latitude, double longitude, double radius) {
+	private SphericCoordinate(double latitude, double longitude, double radius) {
 		assertValidDouble(latitude);
 		assertValidDouble(longitude);
 		assertValidDouble(radius);
@@ -51,6 +39,31 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.radius = radius;
 
 		assertClassInvariants();
+	}
+
+	/**
+	 * Creates a new SphericCoordinate or returns a cached one.
+	 * @param latitude The latitude to use.
+	 * @param longitude The longitude to use.
+	 */
+	public static SphericCoordinate getInstance(double latitude, double longitude) {
+		return getInstance(latitude, longitude, EARTH_RADIUS_IN_METERS);
+	}
+
+	/**
+	 * Creates a new SphericCoordinate or returns a cached one.
+	 * @param latitude The latitude to use.
+	 * @param longitude The longitude to use.
+	 * @param radius The radius to use.
+	 */
+	public static SphericCoordinate getInstance(double latitude, double longitude, double radius) {
+		final SphericCoordinate key = new SphericCoordinate(latitude, longitude, radius);
+		SphericCoordinate instance = instances.get(key);
+		if (instance != null) {
+			return instance;
+		}
+		instances.put(key, key);
+		return key;
 	}
 
 	/**
@@ -195,6 +208,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double x = radius * Math.cos(latitudeRadians) * Math.cos(longitudeRadians);
 		double y = radius * Math.cos(latitudeRadians) * Math.sin(longitudeRadians);
 		double z = radius * Math.sin(latitudeRadians);
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.getInstance(x, y, z);
 	}
 }

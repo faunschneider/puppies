@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * CartesianCoordinate represents a Coordinate in a cartesian coordinate system.
  * The center of the coordinate system is the Earth, where the x-Axis goes through the equator at latitude, longitude
@@ -10,13 +13,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	private final double y;
 	private final double z;
 	private static final float EQUALS_ALLOWED_DELTA = 0.001f;
-
-	/**
-	 * Constructs an empty CartesianCoordinate, i.e. x = y = z = 0.
-	 */
-	public CartesianCoordinate() {
-		this(0.0, 0.0, 0.0);
-	}
+	private static final Map<CartesianCoordinate, CartesianCoordinate> instances = new HashMap<>();
 
 	/**
 	 * Constructs a new CartesianCoordinate.
@@ -25,7 +22,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param z z coordinate
 	 * @precondition x, y, z must not be NaN or infinity.
 	 */
-	public CartesianCoordinate(double x, double y, double z) {
+	private CartesianCoordinate(double x, double y, double z) {
 		assertValidDouble(x);
 		assertValidDouble(y);
 		assertValidDouble(z);
@@ -33,6 +30,23 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.y = y;
 		this.z = z;
 		assertClassInvariants();
+	}
+
+	/**
+	 * Creates a new CartesianCoordinate or returns a cached one.
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param z z coordinate
+	 * @precondition x, y, z must not be NaN or infinity.
+	 */
+	public static CartesianCoordinate getInstance(double x, double y, double z) {
+		final CartesianCoordinate key = new CartesianCoordinate(x, y, z);
+		CartesianCoordinate instance = instances.get(key);
+		if (instance != null) {
+			return instance;
+		}
+		instances.put(key, key);
+		return key;
 	}
 
 	/**

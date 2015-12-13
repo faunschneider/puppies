@@ -9,10 +9,12 @@ import static org.junit.Assert.assertTrue;
 public class CoordinateTest {
 
 	private static final float EQUALS_FLOAT_DELTA = 0.01f;
-	private SphericCoordinate erlangenSchlossSpheric = new SphericCoordinate(49.597891, 11.004623);
-	private CartesianCoordinate erlangenSchlossCartesian  = new CartesianCoordinate(4053419.089, 788244.274, 4851608.563);
-	private SphericCoordinate roterPlatzSpheric = new SphericCoordinate(49.574661, 11.029198);
-	private CartesianCoordinate roterPlatzCartesian  = new CartesianCoordinate(4055010.998, 790359.020, 4849933.961);
+	private SphericCoordinate erlangenSchlossSpheric = SphericCoordinate.getInstance(49.597891, 11.004623);
+	private CartesianCoordinate erlangenSchlossCartesian =
+			CartesianCoordinate.getInstance(4053419.089, 788244.274, 4851608.563);
+	private SphericCoordinate roterPlatzSpheric = SphericCoordinate.getInstance(49.574661, 11.029198);
+	private CartesianCoordinate roterPlatzCartesian =
+			CartesianCoordinate.getInstance(4055010.998, 790359.020, 4849933.961);
 
 	@Test
 	public void isEqualSameCoordinate() {
@@ -24,7 +26,7 @@ public class CoordinateTest {
 	public void isEqualDifferentTypes() {
 		assertTrue(erlangenSchlossCartesian.isEqual(erlangenSchlossSpheric));
 		assertTrue(erlangenSchlossSpheric.isEqual(erlangenSchlossCartesian));
-		assertFalse(erlangenSchlossSpheric.isEqual(new CartesianCoordinate(0, 1, 2)));
+		assertFalse(erlangenSchlossSpheric.isEqual(CartesianCoordinate.getInstance(0, 1, 2)));
 	}
 
 	@Test

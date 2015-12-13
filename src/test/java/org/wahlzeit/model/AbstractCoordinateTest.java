@@ -13,14 +13,14 @@ public class AbstractCoordinateTest {
 
 	@Test
 	public void coordinateAsCartesianCoordinateReturnsEqualOnCartesian() throws Exception {
-		CartesianCoordinate expectedCartesian = new CartesianCoordinate(4053419.089, 788244.274, 4851608.563);
+		CartesianCoordinate expectedCartesian = CartesianCoordinate.getInstance(4053419.089, 788244.274, 4851608.563);
 		assertTrue(expectedCartesian.isEqual(AbstractCoordinate.coordinateAsCartesianCoordinate(expectedCartesian)));
 	}
 
 	@Test
 	public void coordinateAsCartesianCoordinateConvertsSpheric() throws Exception {
-		SphericCoordinate erlangenSchlossSpheric = new SphericCoordinate(49.597891, 11.004623);
-		CartesianCoordinate expectedCartesian = new CartesianCoordinate(4053419.089, 788244.274, 4851608.563);
+		SphericCoordinate erlangenSchlossSpheric = SphericCoordinate.getInstance(49.597891, 11.004623);
+		CartesianCoordinate expectedCartesian = CartesianCoordinate.getInstance(4053419.089, 788244.274, 4851608.563);
 		assertTrue(expectedCartesian.isEqual(
 				AbstractCoordinate.coordinateAsCartesianCoordinate(erlangenSchlossSpheric)));
 	}
