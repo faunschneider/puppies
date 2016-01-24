@@ -1,9 +1,11 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.services.DataObject;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class Puppy {
+public class Puppy extends DataObject {
 
 	private final PuppyType type;
 	private String name;
